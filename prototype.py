@@ -12,8 +12,17 @@ def get_directory_structure(rootdir):
         parent[folders[-1]] = subdir
     return dir_list
 
+def print_dict(dictionary, ident = '', braces=1):
+    for key, value in dictionary.items():
+        if isinstance(value, dict):
+            print('%s%s%s%s' %(ident,braces*'[',key,braces*']'))
+            print_dict(value, ident+'  ', braces+1)
+        else:
+            print(ident+'%s = %s' %(key, value))
+
 def main():
-    print(get_directory_structure(os.getcwd()))
+    nested = get_directory_structure(os.getcwd())
+    print_dict(nested)
 
 if __name__ == '__main__':
     main()
