@@ -12,11 +12,11 @@ def get_directory_structure(rootdir):
         parent[folders[-1]] = subdir
     return dir_list
 
-def print_dict(dictionary, contents=True, indent='', braces=1):
+def print_dict(dictionary, contents=True, indent=''):
     for key, value in dictionary.items():
         if isinstance(value, dict):
-            print('%s%s%s%s' %(indent,braces*'[',key,braces*']'))
-            print_dict(value, contents, indent+'  ', braces+1)
+            print('%s%s' %(indent, key))
+            print_dict(value, contents, indent+'  ')
         elif contents:
             print('%s%s = %s' %(indent, key, value))
 
