@@ -17,10 +17,10 @@ def get_directory_structure(rootdir):
 def print_dict(dictionary, contents, indent=''):
     for key, value in dictionary.items():
         if isinstance(value, dict):
-            print('%s%s' %(indent, key))
+            print('%s%s/' %(indent, key))
             print_dict(value, contents, indent+'  ')
         elif contents:
-            print('%s%s = %s' %(indent, key, value))
+            print('%s%s' %(indent, key))
 
 def main():
     parser = argparse.ArgumentParser()
