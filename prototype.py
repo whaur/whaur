@@ -1,4 +1,5 @@
 import os
+import argparse
 from functools import reduce
 
 def get_directory_structure(rootdir):
@@ -13,7 +14,7 @@ def get_directory_structure(rootdir):
     return dir_list
 
 # Symbols for ascii art: ├ , ─ , └
-def print_dict(dictionary, contents=True, indent=''):
+def print_dict(dictionary, contents, indent=''):
     for key, value in dictionary.items():
         if isinstance(value, dict):
             print('%s%s' %(indent, key))
@@ -22,8 +23,12 @@ def print_dict(dictionary, contents=True, indent=''):
             print('%s%s = %s' %(indent, key, value))
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-v', action='store_true', default=False,
+                        dest='include_files')
+    args = parser.parse_args()
     nested = get_directory_structure(os.getcwd())
-    print_dict(nested, True)
+    print_dict(nested, args.include_files)
 
 if __name__ == '__main__':
     main()
