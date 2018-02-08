@@ -18,7 +18,7 @@ def print_dict(dictionary, indent = '', braces=1):
             print('%s%s%s%s' %(indent,braces*'[',key,braces*']'))
             print_dict(value, indent+'  ', braces+1)
         else:
-            print(indent+'%s = %s' %(key, value))
+            print('%s%s = %s' %(indent, key, value))
 
 def main():
     nested = get_directory_structure(os.getcwd())
