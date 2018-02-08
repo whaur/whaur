@@ -12,6 +12,7 @@ def get_directory_structure(rootdir):
         parent[folders[-1]] = subdir
     return dir_list
 
+# Symbols for ascii art: ├ , ─ , └
 def print_dict(dictionary, contents=True, indent=''):
     for key, value in dictionary.items():
         if isinstance(value, dict):
