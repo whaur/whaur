@@ -8,9 +8,9 @@ def get_directory_structure(rootdir):
     start = rootdir.rfind(os.path.sep) + 1
     for path, dirs, files in os.walk(rootdir):
         folders = path[start:].split(os.sep)
-        subdir = dict.fromkeys(files)
+        filelist = dict.fromkeys(files)
         parent = reduce(dict.get, folders[:-1], dir_list)
-        parent[folders[-1]] = subdir
+        parent[folders[-1]] = filelist
     return dir_list
 
 # Symbols for ascii art: ├ , ─ , └
