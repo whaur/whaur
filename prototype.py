@@ -13,14 +13,38 @@ def get_directory_structure(rootdir):
         parent[folders[-1]] = filelist
     return dir_list
 
+def get_length(dictionary, contents):
+    if contents:
+        cnt = len(dictionary)
+    else:
+        cnt = 0
+        for key, value in dictionary.items():
+            if isinstance(value, dict):
+                cnt += 1
+    return cnt
+
 # Symbols for ascii art: ├ , ─ , └
-def print_dict(dictionary, contents, indent=''):
+def print_dict(dictionary, contents, depth=0, indent=''):
+    cnt = 1
+    mcnt = get_length(dictionary, contents)
     for key, value in sorted(dictionary.items()):
+        if depth == 0:
+            leader = ''
+        elif cnt == mcnt:
+            leader = '└── '
+        else:
+            leader = '├── '
         if isinstance(value, dict):
-            print('%s%s/' %(indent, key))
-            print_dict(value, contents, indent+'  ')
+            print('%s%s%s/' %(indent, leader, key))
+            if depth < 1:
+                shift = 0
+            else:
+                shift = 4
+            print_dict(value, contents, depth+1, indent+' '*shift)
+            cnt += 1
         elif contents:
-            print('%s%s' %(indent, key))
+            print('%s%s%s' %(indent, leader, key))
+            cnt += 1
 
 def main():
     parser = argparse.ArgumentParser()
