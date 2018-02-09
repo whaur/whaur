@@ -23,24 +23,34 @@ def get_length(dictionary, contents):
                 cnt += 1
     return cnt
 
+def get_leader(depth, last):
+    if depth == 0:
+        return ''
+    if last:
+        return '└── '
+    return '├── '
+
+def get_indent(depth, indent, last):
+    if depth <= 1:
+        return ''
+    if last:
+        return indent + ' '*4
+    return indent + '|' + ' '*3
+
 # Symbols for ascii art: ├ , ─ , └
-def print_dict(dictionary, contents, depth=0, indent=''):
+def print_dict(dictionary, contents, depth=0, last_parent=False, indent=''):
     cnt = 1
     mcnt = get_length(dictionary, contents)
+    indent = get_indent(depth, indent, last_parent)
     for key, value in sorted(dictionary.items()):
-        if depth == 0:
-            leader = ''
-        elif cnt == mcnt:
-            leader = '└── '
-        else:
-            leader = '├── '
+        leader = get_leader(depth, cnt==mcnt)
         if isinstance(value, dict):
             print('%s%s%s/' %(indent, leader, key))
             if depth < 1:
                 shift = 0
             else:
                 shift = 4
-            print_dict(value, contents, depth+1, indent+' '*shift)
+            print_dict(value, contents, depth+1, cnt==mcnt, indent)
             cnt += 1
         elif contents:
             print('%s%s%s' %(indent, leader, key))
