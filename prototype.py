@@ -58,11 +58,11 @@ def print_dict(dictionary, contents, depth=0, last_parent=False, indent=''):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-v', action='store_true', default=False,
-                        dest='include_files')
+    parser.add_argument('-f', action='store_true', default=False,
+                        dest='show_files')
     args = parser.parse_args()
     nested = get_directory_structure(os.getcwd())
-    print_dict(nested, args.include_files)
+    print_dict(nested, args.show_files)
 
 if __name__ == '__main__':
     main()
