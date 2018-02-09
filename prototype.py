@@ -15,7 +15,7 @@ def get_directory_structure(rootdir):
 
 # Symbols for ascii art: ├ , ─ , └
 def print_dict(dictionary, contents, indent=''):
-    for key, value in dictionary.items():
+    for key, value in sorted(dictionary.items()):
         if isinstance(value, dict):
             print('%s%s/' %(indent, key))
             print_dict(value, contents, indent+'  ')
