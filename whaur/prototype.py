@@ -13,14 +13,17 @@ def get_directory_structure(rootdir):
         parent[folders[-1]] = filelist
     return dir_list
 
-def get_length(dictionary, show_files):
-    if show_files:
+def get_length(dictionary, show_files, show_hidden):
+    cnt = 0
+    if show_files and show_hidden:
         cnt = len(dictionary)
     else:
-        cnt = 0
         for key, value in dictionary.items():
-            if isinstance(value, dict):
+            if key[0] != '.' and show_files:
                 cnt += 1
+            elif isinstance(value, dict):
+                if key[0] != '.' or show_hidden:
+                    cnt += 1
     return cnt
 
 def get_leader(depth, last):
@@ -38,15 +41,19 @@ def get_indent(depth, indent, last):
     return indent + '|' + ' '*3
 
 # Symbols for ascii art: ├ , ─ , └
-def print_dict(dictionary, show_files, depth=0, last=False, indent=''):
+def print_dict(dictionary, show_files, show_hidden, depth=0, last=False,
+               indent=''):
     cnt = 1
-    mcnt = get_length(dictionary, show_files)
+    mcnt = get_length(dictionary, show_files, show_hidden)
     indent = get_indent(depth, indent, last)
     for key, value in sorted(dictionary.items()):
         leader = get_leader(depth, cnt==mcnt)
-        if isinstance(value, dict):
+        if key[0] == '.' and not show_hidden:
+            continue
+        elif isinstance(value, dict):
             print('%s%s%s/' %(indent, leader, key))
-            print_dict(value, show_files, depth+1, cnt==mcnt, indent)
+            print_dict(value, show_files, show_hidden, depth+1, cnt==mcnt,
+                       indent)
             cnt += 1
         elif show_files:
             print('%s%s%s' %(indent, leader, key))
@@ -56,9 +63,11 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', action='store_true', default=False,
                         dest='show_files')
+    parser.add_argument('-a', action='store_true', default=False,
+                        dest='show_hidden')
     args = parser.parse_args()
     nested = get_directory_structure(os.getcwd())
-    print_dict(nested, args.show_files)
+    print_dict(nested, args.show_files, args.show_hidden)
 
 if __name__ == '__main__':
     main()
