@@ -13,8 +13,8 @@ def get_directory_structure(rootdir):
         parent[folders[-1]] = filelist
     return dir_list
 
-def get_length(dictionary, contents):
-    if contents:
+def get_length(dictionary, show_files):
+    if show_files:
         cnt = len(dictionary)
     else:
         cnt = 0
@@ -38,21 +38,17 @@ def get_indent(depth, indent, last):
     return indent + '|' + ' '*3
 
 # Symbols for ascii art: ├ , ─ , └
-def print_dict(dictionary, contents, depth=0, last_parent=False, indent=''):
+def print_dict(dictionary, show_files, depth=0, last=False, indent=''):
     cnt = 1
-    mcnt = get_length(dictionary, contents)
-    indent = get_indent(depth, indent, last_parent)
+    mcnt = get_length(dictionary, show_files)
+    indent = get_indent(depth, indent, last)
     for key, value in sorted(dictionary.items()):
         leader = get_leader(depth, cnt==mcnt)
         if isinstance(value, dict):
             print('%s%s%s/' %(indent, leader, key))
-            if depth < 1:
-                shift = 0
-            else:
-                shift = 4
-            print_dict(value, contents, depth+1, cnt==mcnt, indent)
+            print_dict(value, show_files, depth+1, cnt==mcnt, indent)
             cnt += 1
-        elif contents:
+        elif show_files:
             print('%s%s%s' %(indent, leader, key))
             cnt += 1
 
