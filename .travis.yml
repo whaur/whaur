@@ -4,4 +4,4 @@ python:
   - "3.5"
 
 script:
-  - python prototype.py
+  - python whaur/prototype.py
